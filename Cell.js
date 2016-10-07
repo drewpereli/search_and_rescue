@@ -13,7 +13,13 @@ function Cell(x, y, context)
 
 Cell.prototype.fillRect = function(color)
 {
+	this.ctx.fillStyle = color;
+	this.ctx.fillRect(this.xPx, this.yPx, g.constants.CELL_LENGTH, g.constants.CELL_LENGTH);
+}
 
+Cell.prototype.clear = function()
+{
+	this.ctx.clearRect(this.xPx, this.yPx, g.constants.CELL_LENGTH, g.constants.CELL_LENGTH);
 }
 
 

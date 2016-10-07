@@ -2,6 +2,8 @@
 
 function View()
 {
+	this.viewX = 0;//Top left corner tile of the view
+	this.viewY = 0;//Top left corner tile of the view 
 	this.widthInCells = g.constants.VIEW_WIDTH_IN_CELLS;
 	this.heightInCells = g.constants.VIEW_HEIGHT_IN_CELLS;
 	this.cells = 
@@ -30,12 +32,52 @@ function View()
 
 
 
+View.prototype.set = function()
+{
+	for (var x = this.viewX ; x < this.viewX + this.widthInCells ; x++)
+	{
+		for (var y = this.viewY ; y < this.viewY + this.heightInCells ; y++)
+		{
+			var tile = g.game.map.getTile(x, y);
+			var cells = this.getCellsFromTile(tile);
+			//Only set the tile if it has changed
+			if (tile.changed === false)
+				continue;
+			//If the tile has not been seen by the player, set it to black
+			if (tile.seenByPlayer === false)
+			{
+				cells.visibility.fillRect("black");
+				continue;
+			}
+			//If the tile has been changed and seen by the player
+			//If the tile is invisible the player but isn't currently visible, paint a semi-transparent black rectangle
+				//And swith the tile to the one in the players memory
+			if (tile.visibleToPlayer === false)
+			{
+				cells.visibility.fillRect("rgba(0, 0, 0, .5)");
+				tile = g.game.player.tilesSeen[x][y];
+			}
+
+
+		}
+	}
+}
 
 
 
 
-
-
+View.prototype.getCellsFromTile = function(tile)
+{
+	var x = tile.x - this.viewX;
+	var y = tile.y - this.viewY;
+	var returnArray = 
+	{
+		terrain: this.cells.terrain[x][y],
+		objects: this.cells.objects[x][y],
+		visibility: this.cells.visibility[x][y]
+	};
+	return returnArray;
+}
 
 
 
@@ -43,7 +85,7 @@ View.prototype.initialize = function()
 {
 	this.initializeCanvasArrays();
 	this.initializeCellArray();
-	//this.set();
+	this.set();
 }
 
 
