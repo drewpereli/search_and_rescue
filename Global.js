@@ -15,7 +15,7 @@ var g =
 
 g.initialize = function()
 {
-	this.rand = new Random();
+	this.rand = new Random(1);
 	this.game = new Game();
 	this.game.initialize();
 	this.view = new View();

@@ -49,6 +49,7 @@ Map.prototype.getRandomTile = function()
 {
 	var xIndex = g.rand.nextInt(0, this.width);
 	var yIndex = g.rand.nextInt(0, this.height);
+	console.log(g.rand.nextInt(0, 100));
 	return this.getTile(xIndex, yIndex);
 }
 
